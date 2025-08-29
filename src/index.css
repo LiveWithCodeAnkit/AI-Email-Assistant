@@ -1,0 +1,421 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.4), rgba(255,255,255,0.15));
+}
+
+::-webkit-scrollbar-corner {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-in-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.03);
+}
+
+/* .gradient-bg {
+  background: linear-gradient(125deg, #845EC2, #2C73D2, #0081CF, #0089BA, #008E9B, #008F7A);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+} */
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Animation Classes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* .gradient-bg {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+} */
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Override global gradient background to a softer, modern palette */
+.gradient-bg {
+  background-color: #0b1220;
+  background-image:
+    radial-gradient(1200px 600px at 10% -10%, rgba(37,99,235,0.15), transparent 60%),
+    radial-gradient(800px 400px at 90% 10%, rgba(16,185,129,0.12), transparent 60%),
+    radial-gradient(1000px 600px at 50% 120%, rgba(168,85,247,0.12), transparent 60%),
+    linear-gradient(180deg, #0b1220 0%, #0b1220 100%);
+}
+
+/* Tame aurora intensity for better readability */
+.aurora-bg::before,
+.aurora-bg::after {
+  opacity: 0.18;
+}
+.aurora-bg::after { opacity: 0.12; }
+
+/* Aurora background */
+.aurora-bg {
+  position: relative;
+  overflow: hidden;
+}
+.aurora-bg::before,
+.aurora-bg::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: conic-gradient(from 180deg at 50% 50%, #ff6bcb, #845EC2, #2C73D2, #23a6d5, #23d5ab, #ff6bcb);
+  filter: blur(80px);
+  opacity: 0.35;
+  animation: aurora 16s linear infinite;
+}
+.aurora-bg::after {
+  animation-duration: 22s;
+  animation-direction: reverse;
+  opacity: 0.25;
+}
+
+@keyframes aurora {
+  to { transform: rotate(1turn); }
+}
+
+/* Glass card */
+.glass-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+/* Neon border */
+.neon {
+  position: relative;
+}
+.neon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(90deg, #7C3AED, #06B6D4, #84CC16);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  filter: drop-shadow(0 0 8px rgba(124,58,237,0.5)) drop-shadow(0 0 16px rgba(6,182,212,0.25));
+}
+
+/* Soft title */
+.title-glow {
+  text-shadow: 0 2px 18px rgba(255,255,255,0.25);
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(90deg, #a78bfa, #22d3ee, #34d399);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Tilt hover */
+.tilt:hover {
+  transform: perspective(800px) rotateX(1.5deg) rotateY(-1.5deg) translateY(-2px);
+  transition: transform 200ms ease;
+}
+
+/* Markdown styles (inverted) */
+.prose-invert code {
+  background: rgba(255,255,255,0.08);
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.prose-invert pre {
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+}
+.prose-invert blockquote {
+  border-left: 4px solid #7C3AED;
+  padding-left: 1rem;
+  color: rgba(255,255,255,0.9);
+}
+
+/* Theme toggles */
+:root {
+  --card-bg: rgba(255,255,255,0.12);
+  --card-border: rgba(255,255,255,0.25);
+}
+.theme-soft .glass-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
+}
+.theme-neon .glass-card {
+  background: linear-gradient(180deg, rgba(124,58,237,0.18), rgba(6,182,212,0.08));
+}
+
+/* Theme-based neon gradient overrides */
+.theme-neon .neon::after {
+  background: linear-gradient(90deg, #7C3AED, #06B6D4, #84CC16);
+}
+.theme-soft .neon::after {
+  background: linear-gradient(90deg, #60A5FA, #34D399, #A78BFA);
+  filter: drop-shadow(0 0 6px rgba(96,165,250,0.35)) drop-shadow(0 0 12px rgba(167,139,250,0.25));
+}
+
+/* Day/Night theme variants */
+.theme-night .gradient-bg {
+  /* already defined by existing .gradient-bg rules */
+}
+
+.theme-day .gradient-bg {
+  background-color: #f6f8ff;
+  background-image:
+    radial-gradient(1200px 600px at 10% -10%, rgba(59,130,246,0.18), transparent 60%),
+    radial-gradient(800px 400px at 90% 10%, rgba(16,185,129,0.15), transparent 60%),
+    radial-gradient(1000px 600px at 50% 120%, rgba(168,85,247,0.18), transparent 60%),
+    linear-gradient(180deg, #f8faff 0%, #eef3ff 100%);
+}
+
+.theme-day .aurora-bg::before,
+.theme-day .aurora-bg::after {
+  opacity: 0.22;
+  filter: blur(70px) saturate(1.1);
+}
+
+.theme-day .glass-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45));
+  border-color: rgba(0,0,0,0.08);
+  box-shadow: 0 12px 30px rgba(15,23,42,0.08);
+}
+
+.theme-night .glass-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+  border-color: rgba(255,255,255,0.25);
+}
+
+.theme-day .neon::after {
+  background: linear-gradient(90deg, #3B82F6, #10B981, #A78BFA);
+  filter: drop-shadow(0 0 6px rgba(59,130,246,0.35)) drop-shadow(0 0 12px rgba(167,139,250,0.25));
+}
+
+.theme-night .neon::after {
+  background: linear-gradient(90deg, #7C3AED, #06B6D4, #84CC16);
+}
+
+/* Refined animated background */
+.gradient-bg {
+  background: linear-gradient(120deg, #0b1220, #111b2e, #0b1220);
+  background-size: 200% 200%;
+  animation: gradientShift 18s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Soft vignette helper (optional wrapper) */
+.vignette {
+  position: relative;
+}
+.vignette::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 80% at 50% 20%, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.35) 100%);
+}
+
+/* Tame aurora intensity & slow it down */
+.aurora-bg::before,
+.aurora-bg::after {
+  opacity: 0.08;
+  animation-duration: 24s;
+}
+.aurora-bg::after {
+  opacity: 0.05;
+  animation-duration: 36s;
+}
+
+/* Motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .gradient-bg { animation: none; }
+  .aurora-bg::before, .aurora-bg::after { animation: none; }
+}
+
+/* Day/Night text contrast */
+.theme-night { color: #e5e7eb; }
+.theme-day { color: #0f172a; }
+
+/* Day background overrides (keep earlier rules) */
+.theme-day .gradient-bg {
+  background: linear-gradient(120deg, #f7f9ff, #eef3ff, #f7f9ff);
+  background-size: 200% 200%;
+}
+
+/* Keep previous theme/day/night glass & neon overrides (defined earlier) */
+
+/* Click safety: overlays should not capture pointer events */
+.aurora-bg::before,
+.aurora-bg::after {
+  pointer-events: none;
+}
+
+/* Glass card stacking so controls remain clickable */
+.glass-card {
+  position: relative;
+  isolation: isolate;
+  z-index: 1;
+}
+
+/* Tweak base background tone for better match */
+.gradient-bg {
+  background: linear-gradient(120deg, #0d1324, #0b1220, #0f1a2f);
+  background-size: 200% 200%;
+  animation: gradientShift 18s ease-in-out infinite;
+}
+
+/* Solid backgrounds (no moving gradient) */
+.gradient-bg {
+  background: #0e1320; /* night default */
+}
+.theme-day .gradient-bg {
+  background: #f5f7ff; /* day */
+}
+
+/* Pill toggle button styling */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 9999px;
+  padding: 8px 14px;
+  border: 1px solid rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.10);
+  transition: transform 120ms ease, background 160ms ease, border-color 160ms ease;
+  cursor: pointer;
+}
+.btn-pill:hover { transform: translateY(-1px); }
+.btn-pill:active { transform: translateY(0); }
+.theme-day .btn-pill { border-color: rgba(0,0,0,0.15); background: rgba(255,255,255,0.65); }
+
+/* Active state accent */
+.btn-pill--active {
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.25);
+}
+
+/* Disable tilt hover animation entirely */
+.tilt, .tilt:hover {
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Remove aurora overlay (no gradients, no blur) */
+.aurora-bg::before,
+.aurora-bg::after {
+  content: none !important;
+}
