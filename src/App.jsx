@@ -111,6 +111,14 @@ function App() {
                   <span>⭐</span>
                   <span>@LiveWithCodeAnkit</span>
                 </a>
+                <a
+                  href="/upwork"
+                  className="inline-flex items-center gap-2 text-sm bg-purple-600 hover:bg-purple-700 border border-purple-500 rounded-full px-5 py-2 transition"
+                  title="Upwork Proposals"
+                >
+                  <span>🚀</span>
+                  <span>Upwork Proposals</span>
+                </a>
               </div>
             </div>
           </div>

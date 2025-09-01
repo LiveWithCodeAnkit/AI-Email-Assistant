@@ -419,3 +419,28 @@
 .aurora-bg::after {
   content: none !important;
 }
+
+/* Dropdown styling fixes */
+select option {
+  background-color: #1f2937 !important;
+  color: white !important;
+  padding: 8px 12px;
+}
+
+select option:hover {
+  background-color: #374151 !important;
+}
+
+select option:checked {
+  background-color: #7c3aed !important;
+}
+
+/* Keyword suggestions styling */
+.keyword-suggestion {
+  transition: all 0.2s ease-in-out;
+}
+
+.keyword-suggestion:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
