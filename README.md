@@ -44,6 +44,7 @@ The AI Email Assistant is a powerful web application that transforms email commu
 - **Styling**: Tailwind CSS with custom animations
 - **UI Components**: Material-UI integration
 - **Architecture**: Component-based with clear separation of concerns
+- **Routing**: React Router DOM with Vercel deployment support
 
 ## Project Structure
 ```
@@ -95,6 +96,22 @@ src/
 6. **Purpose**: Specify email purpose (if no template)
 7. **Generate**: AI creates polished, professional email
 8. **Copy**: One-click copy to clipboard
+
+## Deployment
+
+### Vercel Deployment
+The application is configured for seamless deployment on Vercel with client-side routing support:
+
+- **vercel.json**: Configured for React Router DOM with proper rewrites
+- **Build Process**: Optimized Vite build with proper asset handling
+- **Routing**: All routes (`/`, `/upwork`, `/agent`, `/test`) work correctly
+- **Performance**: Optimized bundle size and loading
+
+### Available Routes
+- `/` - Main Email Assistant (default)
+- `/upwork` - AI-powered Upwork Proposal Generator
+- `/agent` - Autonomous AI Email Agent
+- `/test` - Test route for debugging
 
 ## AI Enhancement Features
 

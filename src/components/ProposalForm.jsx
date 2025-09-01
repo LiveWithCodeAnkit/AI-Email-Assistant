@@ -697,13 +697,13 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-white">Generate a Personalized Proposal</h2>
           <div className="flex space-x-2">
-            <button
+            {/* <button
               type="button"
               onClick={() => setShowTemplates(true)}
               className="px-4 py-2 bg-purple-600/20 border border-purple-500/50 rounded-lg text-purple-200 hover:bg-purple-600/30 text-sm"
             >
               📋 Templates
-            </button>
+            </button> */}
             <button
               type="button"
               onClick={() => setShowProfileManager(!showProfileManager)}
@@ -1245,12 +1245,12 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
         </form>
 
         {/* Templates Modal */}
-        {showTemplates && (
+        {/* {showTemplates && (
           <ProposalTemplates
             onSelectTemplate={handleSelectTemplate}
             onClose={() => setShowTemplates(false)}
           />
-        )}
+        )} */}
       </div>
     </>
   );
