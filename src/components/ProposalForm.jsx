@@ -878,6 +878,69 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
             </div>
           </div>
 
+          {/* CV Upload Section with Text Extraction */}
+          <div>
+            <label className="block text-white font-medium mb-2">
+              📄 Resume/CV Upload (Auto-fill "About You" section)
+            </label>
+            <div className="border-2 border-dashed border-white/20 rounded-lg p-6 hover:border-white/40 transition-colors">
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx,.txt"
+                onChange={handleFileUpload}
+                className="hidden"
+                id="cv-upload"
+              />
+              <label htmlFor="cv-upload" className="cursor-pointer block text-center">
+                <div className="text-white/70 mb-2">
+                  {cvFile ? '✅ File Uploaded' : '📄 Upload Resume/CV'}
+                </div>
+                <div className="text-white/50 text-sm mb-2">
+                  {cvFile ? cvFile.name : 'Best: TXT files | Limited: PDF, DOC, DOCX'}
+                </div>
+                {cvFile && (
+                  <div className="text-green-400 text-sm">
+                    Click "Extract & Analyze" to auto-fill your profile information
+                  </div>
+                )}
+                {!cvFile && (
+                  <div className="text-yellow-400 text-xs mt-2">
+                    💡 For best results, save your resume as a .txt file or be ready to copy-paste content
+                  </div>
+                )}
+              </label>
+            </div>
+            {cvFile && (
+              <div className="mt-3 flex space-x-2">
+                <button
+                  type="button"
+                  id="extract-resume-btn"
+                  onClick={extractResumeText}
+                  className="px-4 py-2 bg-blue-600/20 border border-blue-500/50 rounded-lg text-blue-200 hover:bg-blue-600/30 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  🔍 Extract & Analyze Resume
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCvFile(null)}
+                  className="px-4 py-2 bg-red-600/20 border border-red-500/50 rounded-lg text-red-200 hover:bg-red-600/30 text-sm"
+                >
+                  ✕ Remove File
+                </button>
+              </div>
+            )}
+            <div className="mt-3 p-3 bg-blue-600/10 border border-blue-500/30 rounded-lg">
+              <h4 className="text-blue-200 font-medium mb-2 text-sm">📋 Resume Analysis Features:</h4>
+              <ul className="text-blue-200/70 text-xs space-y-1">
+                <li>• Automatically extracts your professional summary</li>
+                <li>• Identifies years of experience</li>
+                <li>• Detects technical skills and keywords</li>
+                <li>• Fills "About You" section intelligently</li>
+                <li>• Works best with plain text (.txt) files</li>
+              </ul>
+            </div>
+          </div>
+
           {/* About You Section */}
           <div>
             <div className="flex items-center justify-between mb-2">
@@ -1163,69 +1226,6 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
             />
             <div className="mt-2 text-white/50 text-sm">
               💡 Examples: "Mention my availability for video calls", "Emphasize quick turnaround time", "Include specific pricing structure", etc.
-            </div>
-          </div>
-
-          {/* CV Upload Section with Text Extraction */}
-          <div>
-            <label className="block text-white font-medium mb-2">
-              📄 Resume/CV Upload (Auto-fill "About You" section)
-            </label>
-            <div className="border-2 border-dashed border-white/20 rounded-lg p-6 hover:border-white/40 transition-colors">
-              <input
-                type="file"
-                accept=".pdf,.doc,.docx,.txt"
-                onChange={handleFileUpload}
-                className="hidden"
-                id="cv-upload"
-              />
-              <label htmlFor="cv-upload" className="cursor-pointer block text-center">
-                <div className="text-white/70 mb-2">
-                  {cvFile ? '✅ File Uploaded' : '📄 Upload Resume/CV'}
-                </div>
-                <div className="text-white/50 text-sm mb-2">
-                  {cvFile ? cvFile.name : 'Best: TXT files | Limited: PDF, DOC, DOCX'}
-                </div>
-                {cvFile && (
-                  <div className="text-green-400 text-sm">
-                    Click "Extract & Analyze" to auto-fill your profile information
-                  </div>
-                )}
-                {!cvFile && (
-                  <div className="text-yellow-400 text-xs mt-2">
-                    💡 For best results, save your resume as a .txt file or be ready to copy-paste content
-                  </div>
-                )}
-              </label>
-            </div>
-            {cvFile && (
-              <div className="mt-3 flex space-x-2">
-                <button
-                  type="button"
-                  id="extract-resume-btn"
-                  onClick={extractResumeText}
-                  className="px-4 py-2 bg-blue-600/20 border border-blue-500/50 rounded-lg text-blue-200 hover:bg-blue-600/30 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  🔍 Extract & Analyze Resume
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCvFile(null)}
-                  className="px-4 py-2 bg-red-600/20 border border-red-500/50 rounded-lg text-red-200 hover:bg-red-600/30 text-sm"
-                >
-                  ✕ Remove File
-                </button>
-              </div>
-            )}
-            <div className="mt-3 p-3 bg-blue-600/10 border border-blue-500/30 rounded-lg">
-              <h4 className="text-blue-200 font-medium mb-2 text-sm">📋 Resume Analysis Features:</h4>
-              <ul className="text-blue-200/70 text-xs space-y-1">
-                <li>• Automatically extracts your professional summary</li>
-                <li>• Identifies years of experience</li>
-                <li>• Detects technical skills and keywords</li>
-                <li>• Fills "About You" section intelligently</li>
-                <li>• Works best with plain text (.txt) files</li>
-              </ul>
             </div>
           </div>
 
