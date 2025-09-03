@@ -249,6 +249,14 @@ ${jobAnalysis.clientInsights}
 - Align your communication style with their job posting tone
 - Address specific pain points or challenges mentioned
 
+**ADDITIONAL CUSTOM INSTRUCTIONS:**
+${formData.extraInstructions ? `
+The freelancer has provided these specific instructions that MUST be incorporated into the proposal:
+${formData.extraInstructions}
+
+Please ensure these instructions are naturally integrated throughout the proposal where relevant.
+` : ''}
+
 **CRITICAL FORMATTING REQUIREMENTS:**
 - Use clear section headers (e.g., "## Understanding Your Project", "## My Approach", "## Why Choose Me")
 - Use short paragraphs (2-3 sentences max) with proper line breaks

@@ -32,12 +32,13 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
     profile: '',
     aboutYou: '',
     jobRequirements: '',
+    extraInstructions: '',
     experience: '',
     keywords: [''],
     portfolioLinks: [''],
     proposalTone: 'default',
     proposalLength: 'medium',
-    model: 'gpt-4',
+    model: 'gpt-3.5-turbo',
     highQuality: false,
     showAdditionalFields: true,
     clientName: '',
@@ -607,9 +608,12 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
   ];
 
   const models = [
-    { value: 'gpt-4', label: 'GPT-4 (Best Quality)' },
-    { value: 'gpt-3.5-turbo', label: 'GPT-3.5 Turbo (Fast)' },
-    { value: 'gpt-4-turbo', label: 'GPT-4 Turbo (Balanced)' }
+    { value: 'gpt-5', label: 'GPT-5 (Best for Professional Writing)' },
+    { value: 'gpt-5-mini', label: 'GPT-5 Mini (Fast, Cost-Efficient, Still High Quality)' },
+    { value: 'gpt-4o', label: 'GPT-4o (Fast, High-Quality, Reasoning)' },
+    { value: 'gpt-4o-mini', label: 'GPT-4o Mini (Super Fast, Best Budget Option)' },
+    { value: 'gpt-4-turbo', label: 'GPT-4 Turbo (Balanced, Efficient)' },
+    { value: 'gpt-3.5-turbo', label: 'GPT-3.5 Turbo (Fast, Budget)' }
   ];
 
   const handleInputChange = (field, value) => {
@@ -670,14 +674,19 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
       profile: '',
       aboutYou: '',
       jobRequirements: '',
+      extraInstructions: '',
       experience: '',
       keywords: [''],
       portfolioLinks: [''],
       proposalTone: 'default',
       proposalLength: 'medium',
-      model: 'gpt-4',
+      model: 'gpt-3.5-turbo',
       highQuality: false,
-      showAdditionalFields: true
+      showAdditionalFields: true,
+      clientName: '',
+      projectBudget: '',
+      timeline: '',
+      specialRequirements: ''
     });
     setCvFile(null);
   };
@@ -1137,6 +1146,23 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
             />
             <div className="mt-2 text-white/50 text-sm">
               💡 Tip: Include the full job posting for best results. The AI will analyze client preferences and requirements.
+            </div>
+          </div>
+
+          {/* Extra Instructions */}
+          <div>
+            <label className="block text-white font-medium mb-2">
+              📝 Extra Instructions (Optional)
+            </label>
+            <textarea
+              value={formData.extraInstructions}
+              onChange={(e) => handleInputChange('extraInstructions', e.target.value)}
+              placeholder="Add any specific instructions, requirements, or customizations you want the AI to consider when generating your proposal..."
+              className="w-full h-32 p-3 bg-white/10 border border-white/20 rounded-lg text-white backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-purple-500 resize-y overflow-y-auto"
+              style={{ minHeight: '128px', maxHeight: '300px' }}
+            />
+            <div className="mt-2 text-white/50 text-sm">
+              💡 Examples: "Mention my availability for video calls", "Emphasize quick turnaround time", "Include specific pricing structure", etc.
             </div>
           </div>
 
