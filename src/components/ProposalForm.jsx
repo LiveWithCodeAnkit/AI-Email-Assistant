@@ -27,6 +27,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import ProposalTemplates from './ProposalTemplates';
+import CustomModal from './CustomModal';
 
 // Toast notification component
 const Toast = ({ message, type, onClose }) => {
@@ -55,6 +56,7 @@ const Toast = ({ message, type, onClose }) => {
 
 function ProposalForm({ onGenerate, isGenerating, error }) {
   const [toast, setToast] = useState(null);
+  const [modal, setModal] = useState({ isOpen: false, type: 'input', title: '', message: '', placeholder: '', onConfirm: null });
   const [formData, setFormData] = useState({
     profile: '',
     aboutYou: '',
@@ -137,24 +139,40 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
     return 'General';
   };
 
+  const showModal = (type, title, message, placeholder, onConfirm) => {
+    setModal({
+      isOpen: true,
+      type,
+      title,
+      message,
+      placeholder,
+      onConfirm
+    });
+  };
+
   const saveCurrentProfile = () => {
-    try {
-      const profileName = prompt('Enter a name for this profile:');
-      if (profileName) {
-        const newProfile = {
-          id: Date.now(),
-          name: profileName,
-          data: { ...formData }
-        };
-        const updated = [...savedProfiles, newProfile];
-        setSavedProfiles(updated);
-        localStorage.setItem('upwork_saved_profiles', JSON.stringify(updated));
-        showToast(`Profile "${profileName}" saved successfully!`, 'success');
+    showModal(
+      'input',
+      'Save Profile',
+      'Enter a name for this profile:',
+      'Profile name...',
+      (profileName) => {
+        try {
+          const newProfile = {
+            id: Date.now(),
+            name: profileName,
+            data: { ...formData }
+          };
+          const updated = [...savedProfiles, newProfile];
+          setSavedProfiles(updated);
+          localStorage.setItem('upwork_saved_profiles', JSON.stringify(updated));
+          showToast(`Profile "${profileName}" saved successfully!`, 'success');
+        } catch (error) {
+          console.error('Error saving profile:', error);
+          showToast('Failed to save profile', 'error');
+        }
       }
-    } catch (error) {
-      console.error('Error saving profile:', error);
-      showToast('Failed to save profile', 'error');
-    }
+    );
   };
 
   const loadProfile = (profile) => {
@@ -228,6 +246,55 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
       updateProgress('🔍 Analyzing content...');
       await new Promise(resolve => setTimeout(resolve, 300)); // Show progress
 
+      // Handle special error cases
+      if (text === 'PDF_EXTRACTION_FAILED') {
+        showModal(
+          'input',
+          'PDF Extraction Failed',
+          'PDF text extraction failed. Please copy and paste your resume content here:',
+          'Paste your resume content here...',
+          (manualInput) => {
+            if (manualInput && manualInput.length > 50) {
+              const manualInfo = analyzeResumeText(manualInput);
+              setFormData(prev => ({
+                ...prev,
+                aboutYou: manualInfo.fullText,
+                experience: manualInfo.experience || prev.experience,
+                keywords: [...prev.keywords.filter(k => k.trim()), ...manualInfo.skills]
+              }));
+              showToast('✅ Manual content analyzed and applied successfully!', 'success');
+            } else {
+              showToast('❌ Resume analysis incomplete. Please fill the "About You" section manually.', 'error');
+            }
+          }
+        );
+        return;
+      }
+
+      if (text === 'FORMAT_EXTRACTION_FAILED') {
+        showModal(
+          'input',
+          'Format Not Supported',
+          'This file format requires manual input. Please copy and paste your resume content here:',
+          'Paste your resume content here...',
+          (manualInput) => {
+            if (manualInput && manualInput.length > 50) {
+              const manualInfo = analyzeResumeText(manualInput);
+              setFormData(prev => ({
+                ...prev,
+                aboutYou: manualInfo.fullText,
+                experience: manualInfo.experience || prev.experience,
+                keywords: [...prev.keywords.filter(k => k.trim()), ...manualInfo.skills]
+              }));
+              showToast('✅ Manual content analyzed and applied successfully!', 'success');
+            } else {
+              showToast('❌ Resume analysis incomplete. Please fill the "About You" section manually.', 'error');
+            }
+          }
+        );
+        return;
+      }
+
       // Analyze the extracted text
       const extractedInfo = analyzeResumeText(text);
 
@@ -246,43 +313,51 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
         showToast(`🎉 Resume Analysis Complete! Extracted ${text.length} characters, found ${extractedInfo.skills.length} skills, and auto-filled your profile successfully!`, 'success');
       } else {
         // If extraction failed, provide manual option
-        const manualInput = prompt(
-          '⚠️ Automatic extraction had limited success.\n\nPlease paste your resume content here for better analysis:'
+        showModal(
+          'input',
+          'Manual Resume Input',
+          '⚠️ Automatic extraction had limited success.\n\nPlease paste your resume content here for better analysis:',
+          'Paste your resume content here...',
+          (manualInput) => {
+            if (manualInput && manualInput.length > 50) {
+              const manualInfo = analyzeResumeText(manualInput);
+              setFormData(prev => ({
+                ...prev,
+                aboutYou: manualInfo.fullText, // Use complete text
+                experience: manualInfo.experience || prev.experience,
+                keywords: [...prev.keywords.filter(k => k.trim()), ...manualInfo.skills] // Add all skills
+              }));
+              showToast('✅ Manual content analyzed and applied successfully!', 'success');
+            } else {
+              showToast('❌ Resume analysis incomplete. Please fill the "About You" section manually.', 'error');
+            }
+          }
         );
-
-        if (manualInput && manualInput.length > 50) {
-          const manualInfo = analyzeResumeText(manualInput);
-          setFormData(prev => ({
-            ...prev,
-            aboutYou: manualInfo.fullText, // Use complete text
-            experience: manualInfo.experience || prev.experience,
-            keywords: [...prev.keywords.filter(k => k.trim()), ...manualInfo.skills] // Add all skills
-          }));
-          showToast('✅ Manual content analyzed and applied successfully!', 'success');
-        } else {
-          showToast('❌ Resume analysis incomplete. Please fill the "About You" section manually.', 'error');
-        }
       }
     } catch (error) {
       console.error('Error extracting resume text:', error);
 
       // Provide manual fallback
-      const manualInput = prompt(
-        '❌ File processing failed.\n\nFor best results, please copy and paste your resume content here:'
+      showModal(
+        'input',
+        'Manual Resume Input',
+        '❌ File processing failed.\n\nFor best results, please copy and paste your resume content here:',
+        'Paste your resume content here...',
+        (manualInput) => {
+          if (manualInput && manualInput.length > 50) {
+            const manualInfo = analyzeResumeText(manualInput);
+            setFormData(prev => ({
+              ...prev,
+              aboutYou: manualInfo.fullText, // Use complete text
+              experience: manualInfo.experience || prev.experience,
+              keywords: [...prev.keywords.filter(k => k.trim()), ...manualInfo.skills] // Add all skills
+            }));
+            showToast('✅ Manual content analyzed and applied successfully!', 'success');
+          } else {
+            showToast('❌ Resume analysis failed. Please fill the form manually or try a different file format (TXT recommended).', 'error');
+          }
+        }
       );
-
-      if (manualInput && manualInput.length > 50) {
-        const manualInfo = analyzeResumeText(manualInput);
-        setFormData(prev => ({
-          ...prev,
-          aboutYou: manualInfo.fullText, // Use complete text
-          experience: manualInfo.experience || prev.experience,
-          keywords: [...prev.keywords.filter(k => k.trim()), ...manualInfo.skills] // Add all skills
-        }));
-        showToast('✅ Manual content analyzed and applied successfully!', 'success');
-      } else {
-        showToast('❌ Resume analysis failed. Please fill the form manually or try a different file format (TXT recommended).', 'error');
-      }
     } finally {
       // Reset button state
       if (button) {
@@ -306,10 +381,9 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
           } catch (error) {
             console.error('PDF extraction failed:', error);
             // Fallback: ask user to copy-paste content
-            const fallbackText = prompt(
-              'PDF text extraction failed. Please copy and paste your resume content here:'
-            );
-            resolve(fallbackText || 'Unable to extract PDF content. Please fill manually.');
+            // Note: This is inside a Promise, so we can't use modal here
+            // We'll resolve with a message and let the calling function handle the modal
+            resolve('PDF_EXTRACTION_FAILED');
           }
         };
         reader.onerror = reject;
@@ -327,10 +401,9 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
             resolve(result);
           } else {
             // Fallback for unsupported formats
-            const fallbackText = prompt(
-              'This file format requires manual input. Please copy and paste your resume content here:'
-            );
-            resolve(fallbackText || 'Unable to extract content. Please fill manually.');
+            // Note: This is inside a Promise, so we can't use modal here
+            // We'll resolve with a message and let the calling function handle the modal
+            resolve('FORMAT_EXTRACTION_FAILED');
           }
         };
         reader.onerror = reject;
@@ -730,9 +803,13 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
       )}
 
       <div className="glass-card neon p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-white">Generate a Personalized Proposal</h2>
-          <div className="flex space-x-2">
+        {/* Mobile-Responsive Header */}
+        <div className="mb-6">
+          {/* Title */}
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-0">Generate a Personalized Proposal</h2>
+          
+          {/* Buttons - Mobile Stack, Desktop Row */}
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-2">
             {/* <button
               type="button"
               onClick={() => setShowTemplates(true)}
@@ -743,18 +820,20 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
             <button
               type="button"
               onClick={() => setShowProfileManager(!showProfileManager)}
-              className="px-4 py-2 bg-blue-600/20 border border-blue-500/50 rounded-lg text-blue-200 hover:bg-blue-600/30 text-sm flex items-center"
+              className="px-3 sm:px-4 py-2 bg-blue-600/20 border border-blue-500/50 rounded-lg text-blue-200 hover:bg-blue-600/30 text-xs sm:text-sm flex items-center justify-center"
             >
-              <FolderOpen className="w-4 h-4 mr-2" />
-              Profiles ({savedProfiles.length})
+              <FolderOpen className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Profiles ({savedProfiles.length})</span>
+              <span className="sm:hidden">Profiles ({savedProfiles.length})</span>
             </button>
             <button
               type="button"
               onClick={saveCurrentProfile}
-              className="px-4 py-2 bg-green-600/20 border border-green-500/50 rounded-lg text-green-200 hover:bg-green-600/30 text-sm flex items-center"
+              className="px-3 sm:px-4 py-2 bg-green-600/20 border border-green-500/50 rounded-lg text-green-200 hover:bg-green-600/30 text-xs sm:text-sm flex items-center justify-center"
             >
-              <Save className="w-4 h-4 mr-2" />
-              Save Profile
+              <Save className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Save Profile</span>
+              <span className="sm:hidden">Save Profile</span>
             </button>
           </div>
         </div>
@@ -1351,6 +1430,19 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
             onClose={() => setShowTemplates(false)}
           />
         )} */}
+
+        {/* Custom Modal - Rendered at root level */}
+        {modal.isOpen && (
+          <CustomModal
+            isOpen={modal.isOpen}
+            onClose={() => setModal({ ...modal, isOpen: false })}
+            onConfirm={modal.onConfirm}
+            title={modal.title}
+            message={modal.message}
+            placeholder={modal.placeholder}
+            type={modal.type}
+          />
+        )}
       </div>
     </>
   );

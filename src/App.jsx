@@ -8,6 +8,7 @@ import EmailImprover from './components/EmailImprover';
 import TemplateGallery from './components/TemplateGallery';
 import CorporateGuidelines from './components/CorporateGuidelines';
 import InfoBar from './components/InfoBar';
+import PWAInstallButton from './components/PWAInstallButton';
 import EmailService from './services/EmailService';
 
 function App() {
@@ -83,50 +84,40 @@ function App() {
       <div className={`container mx-auto px-4 max-w-6xl ${animationComplete ? 'animate-fade-in' : 'opacity-0'}`}>
         <header className="mb-8 relative z-10">
           <div className="glass-card neon p-6 rounded-2xl tilt">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="flex flex-col gap-4">
               <div className="flex items-start gap-4">
                 <div className="text-4xl">✉️</div>
-                <div>
-                  <h1 className="text-3xl md:text-4xl font-extrabold tracking-wide title-glow text-gradient">AI Email Assistant</h1>
-                  <p className="text-sm md:text-base opacity-90">Future-grade email drafting and refinement with RAG + LangChain</p>
+                <div className="flex-1">
+                  <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-wide title-glow text-gradient">AI Email Assistant</h1>
+                  <p className="text-xs sm:text-sm md:text-base opacity-90">Future-grade email drafting and refinement with RAG + LangChain</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                {/* <button
-                  type="button"
-                  onClick={() => setTheme((t) => (t === 'theme-night' ? 'theme-day' : 'theme-night'))}
-                  className={`btn-pill ${theme === 'theme-day' ? 'btn-pill--active' : ''}`}
-                  aria-pressed={theme === 'theme-day'}
-                  title="Toggle Day/Night"
-                >
-                  {theme === 'theme-night' ? '🌞 Day Mode' : '🌙 Night Mode'}
-                </button> */}
-                <a
-                  href="https://github.com/LiveWithCodeAnkit"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm bg-white bg-opacity-10 hover:bg-opacity-20 border border-white border-opacity-30 rounded-full px-5 py-2 transition"
-                  title="GitHub Reference"
-                >
-                  <span>⭐</span>
-                  <span>@LiveWithCodeAnkit</span>
-                </a>
-                <a
-                  href="/upwork"
-                  className="inline-flex items-center gap-2 text-sm bg-purple-600 hover:bg-purple-700 border border-purple-500 rounded-full px-5 py-2 transition"
-                  title="Upwork Proposals"
-                >
-                  <span>🚀</span>
-                  <span>Upwork Proposals</span>
-                </a>
-                {/* <a
-                  href="/test"
-                  className="inline-flex items-center gap-2 text-sm bg-green-600 hover:bg-green-700 border border-green-500 rounded-full px-5 py-2 transition"
-                  title="Test Route"
-                >
-                  <span>🧪</span>
-                  <span>Test Route</span>
-                </a> */}
+              
+              {/* Mobile-first responsive button layout */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+                <PWAInstallButton />
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                  <a
+                    href="https://github.com/LiveWithCodeAnkit"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 text-xs sm:text-sm bg-white bg-opacity-10 hover:bg-opacity-20 border border-white border-opacity-30 rounded-full px-3 sm:px-5 py-2 transition"
+                    title="GitHub Reference"
+                  >
+                    <span>⭐</span>
+                    <span className="hidden sm:inline">@LiveWithCodeAnkit</span>
+                    <span className="sm:hidden">GitHub</span>
+                  </a>
+                  <a
+                    href="/upwork"
+                    className="inline-flex items-center justify-center gap-2 text-xs sm:text-sm bg-purple-600 hover:bg-purple-700 border border-purple-500 rounded-full px-3 sm:px-5 py-2 transition"
+                    title="Upwork Proposals"
+                  >
+                    <span>🚀</span>
+                    <span className="hidden sm:inline">Upwork Proposals</span>
+                    <span className="sm:hidden">Upwork</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
