@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Search, RefreshCw, Copy, BarChart3, Clock, CheckCircle } from 'lucide-react';
 import ProposalService from '../services/ProposalService';
 
 function ClientReviewAnalyzer({ apiKey }) {
@@ -44,7 +45,10 @@ function ClientReviewAnalyzer({ apiKey }) {
 
   return (
     <div className="glass-card neon p-6">
-      <h2 className="text-2xl font-bold text-white mb-6">📊 Analyze Client Reviews</h2>
+      <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
+        <BarChart3 className="w-6 h-6 mr-3" />
+        Analyze Client Reviews
+      </h2>
       
       {error && (
         <div className="mb-4 p-4 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200">
@@ -74,16 +78,27 @@ function ClientReviewAnalyzer({ apiKey }) {
           <div className="flex space-x-2">
             <button
               onClick={handleReset}
-              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-medium rounded-lg transition-colors"
+              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-medium rounded-lg transition-colors flex items-center"
             >
+              <RefreshCw className="w-4 h-4 mr-2" />
               Reset
             </button>
             <button
               onClick={handleAnalyze}
               disabled={isAnalyzing}
-              className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-600/50 text-white font-medium rounded-lg transition-colors disabled:cursor-not-allowed"
+              className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-600/50 text-white font-medium rounded-lg transition-colors disabled:cursor-not-allowed flex items-center"
             >
-              {isAnalyzing ? 'Analyzing...' : '🔍 Analyze Reviews'}
+              {isAnalyzing ? (
+                <>
+                  <Clock className="w-4 h-4 mr-2 animate-spin" />
+                  Analyzing...
+                </>
+              ) : (
+                <>
+                  <Search className="w-4 h-4 mr-2" />
+                  Analyze Reviews
+                </>
+              )}
             </button>
           </div>
         </div>
@@ -119,14 +134,15 @@ function ClientReviewAnalyzer({ apiKey }) {
                   navigator.clipboard.writeText(analysis);
                   alert('Analysis copied to clipboard!');
                 }}
-                className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
+                className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors flex items-center justify-center"
               >
-                📋 Copy Analysis
+                <Copy className="w-4 h-4 mr-2" />
+                Copy Analysis
               </button>
             </div>
           ) : (
             <div className="text-center text-white/50 py-8">
-              <div className="text-4xl mb-4">📊</div>
+              <BarChart3 className="w-16 h-16 mx-auto mb-4 text-white/30" />
               <div className="text-lg mb-2">No analysis yet</div>
               <div className="text-sm">Enter client name and reviews, then click "Analyze Reviews"</div>
             </div>
@@ -136,7 +152,10 @@ function ClientReviewAnalyzer({ apiKey }) {
 
       {/* Info Section */}
       <div className="mt-6 p-4 bg-white/5 rounded-lg">
-        <h4 className="text-white font-medium mb-2">💡 How to use this feature:</h4>
+        <h4 className="text-white font-medium mb-2 flex items-center">
+          <CheckCircle className="w-4 h-4 mr-2 text-blue-400" />
+          How to use this feature:
+        </h4>
         <ul className="text-white/70 text-sm space-y-1">
           <li>• Copy reviews from Upwork client profiles or feedback sections</li>
           <li>• AI will analyze communication style, preferences, and expectations</li>

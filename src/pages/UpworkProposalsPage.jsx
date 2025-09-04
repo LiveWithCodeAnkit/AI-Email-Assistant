@@ -1,30 +1,46 @@
-import React, { useState } from 'react';
-import ApiKeyManager from '../components/ApiKeyManager';
-import SupportSection from '../components/SupportSection';
-import ProposalForm from '../components/ProposalForm';
-import ProposalOutput from '../components/ProposalOutput';
-import ClientReviewAnalyzer from '../components/ClientReviewAnalyzer';
-import ProposalAnalytics from '../components/ProposalAnalytics';
-import ProposalService from '../services/ProposalService';
+import React, { useState } from "react";
+import {
+  Rocket,
+  Github,
+  Coffee,
+  FileText,
+  Search,
+  BarChart3,
+  Heart,
+  QrCode,
+  CheckCircle,
+  Zap,
+  Coffee as CoffeeIcon,
+  Gift,
+} from "lucide-react";
+import ApiKeyManager from "../components/ApiKeyManager";
+import SupportSection from "../components/SupportSection";
+import ProposalForm from "../components/ProposalForm";
+import ProposalOutput from "../components/ProposalOutput";
+import ClientReviewAnalyzer from "../components/ClientReviewAnalyzer";
+import ProposalAnalytics from "../components/ProposalAnalytics";
+import ProposalService from "../services/ProposalService";
 
 function UpworkProposalsPage() {
-  const [apiKey, setApiKey] = useState(localStorage.getItem('openai_api_key') || '');
+  const [apiKey, setApiKey] = useState(
+    localStorage.getItem("openai_api_key") || ""
+  );
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedProposal, setGeneratedProposal] = useState('');
-  const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState('proposal'); // 'proposal', 'reviews', or 'analytics'
+  const [generatedProposal, setGeneratedProposal] = useState("");
+  const [error, setError] = useState("");
+  const [activeTab, setActiveTab] = useState("proposal"); // 'proposal', 'reviews', or 'analytics'
   const handleApiKeySet = (key) => {
-    setApiKey(key || '');
+    setApiKey(key || "");
   };
 
   const handleGenerateProposal = async (formData) => {
     if (!apiKey) {
-      setError('Please enter your OpenAI API key');
+      setError("Please enter your OpenAI API key");
       return;
     }
 
     setIsGenerating(true);
-    setError('');
+    setError("");
 
     try {
       const proposal = await ProposalService.generateProposal(apiKey, formData);
@@ -51,8 +67,9 @@ function UpworkProposalsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-4">
+              <Rocket className="w-8 h-8 text-purple-400" />
               <h1 className="text-2xl font-bold text-white">
-                🚀 Upwork Proposal Generator
+                Upwork Proposal Generator
               </h1>
             </div>
             <div className="flex items-center space-x-4">
@@ -62,16 +79,19 @@ function UpworkProposalsPage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white hover:bg-white/20 transition-all duration-300"
               >
-                ⭐ GitHub
+                <Github className="w-4 h-4 mr-2" />
+                GitHub
               </a>
               <button
-                onClick={() => setActiveTab('support')}
-                className={`inline-flex items-center px-4 py-2 backdrop-blur-sm border rounded-full transition-all duration-300 ${activeTab === 'support'
-                  ? 'bg-yellow-600/20 border-yellow-500/50 text-yellow-200'
-                  : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
-                  }`}
+                onClick={() => setActiveTab("support")}
+                className={`inline-flex items-center px-4 py-2 backdrop-blur-sm border rounded-full transition-all duration-300 ${
+                  activeTab === "support"
+                    ? "bg-yellow-600/20 border-yellow-500/50 text-yellow-200"
+                    : "bg-white/10 border-white/20 text-white hover:bg-white/20"
+                }`}
               >
-                ☕ Support Us
+                <Heart className="w-6 h-6 mr-2 text-red-500 fill-red-500 animate-pulse" />
+                Support Us
               </button>
             </div>
           </div>
@@ -89,46 +109,54 @@ function UpworkProposalsPage() {
         <div className="mb-8">
           <div className="flex space-x-1 bg-white/10 backdrop-blur-sm rounded-lg p-1">
             <button
-              onClick={() => setActiveTab('proposal')}
-              className={`flex-1 py-2 px-4 rounded-md transition-all duration-300 ${activeTab === 'proposal'
-                ? 'bg-purple-600 text-white shadow-lg'
-                : 'text-white/70 hover:text-white hover:bg-white/10'
-                }`}
+              onClick={() => setActiveTab("proposal")}
+              className={`flex-1 py-2 px-4 rounded-md transition-all duration-300 flex items-center justify-center ${
+                activeTab === "proposal"
+                  ? "bg-purple-600 text-white shadow-lg"
+                  : "text-white/70 hover:text-white hover:bg-white/10"
+              }`}
             >
-              📝 Generate Proposal
+              <FileText className="w-4 h-4 mr-2" />
+              Generate Proposal
             </button>
             <button
-              onClick={() => setActiveTab('reviews')}
-              className={`flex-1 py-2 px-4 rounded-md transition-all duration-300 ${activeTab === 'reviews'
-                ? 'bg-purple-600 text-white shadow-lg'
-                : 'text-white/70 hover:text-white hover:bg-white/10'
-                }`}
+              onClick={() => setActiveTab("reviews")}
+              className={`flex-1 py-2 px-4 rounded-md transition-all duration-300 flex items-center justify-center ${
+                activeTab === "reviews"
+                  ? "bg-purple-600 text-white shadow-lg"
+                  : "text-white/70 hover:text-white hover:bg-white/10"
+              }`}
             >
-              🔍 Analyze Client Reviews
+              <Search className="w-4 h-4 mr-2" />
+              Analyze Client Reviews
             </button>
             <button
-              onClick={() => setActiveTab('analytics')}
-              className={`flex-1 py-2 px-4 rounded-md transition-all duration-300 ${activeTab === 'analytics'
-                ? 'bg-purple-600 text-white shadow-lg'
-                : 'text-white/70 hover:text-white hover:bg-white/10'
-                }`}
+              onClick={() => setActiveTab("analytics")}
+              className={`flex-1 py-2 px-4 rounded-md transition-all duration-300 flex items-center justify-center ${
+                activeTab === "analytics"
+                  ? "bg-purple-600 text-white shadow-lg"
+                  : "text-white/70 hover:text-white hover:bg-white/10"
+              }`}
             >
-              📊 Analytics & Insights
+              <BarChart3 className="w-4 h-4 mr-2" />
+              Analytics & Insights
             </button>
             <button
-              onClick={() => setActiveTab('support')}
-              className={`flex-1 py-2 px-4 rounded-md transition-all duration-300 ${activeTab === 'support'
-                ? 'bg-yellow-600 text-white shadow-lg'
-                : 'text-white/70 hover:text-white hover:bg-white/10'
-                }`}
+              onClick={() => setActiveTab("support")}
+              className={`flex-1 py-2 px-4 rounded-md transition-all duration-300 flex items-center justify-center ${
+                activeTab === "support"
+                  ? "bg-yellow-600 text-white shadow-lg"
+                  : "text-white/70 hover:text-white hover:bg-white/10"
+              }`}
             >
-              ☕ Support Us
+              <Heart className="w-6 h-6 mr-2 text-red-500 fill-red-500 animate-pulse" />
+              Support Us
             </button>
           </div>
         </div>
 
         {/* Content Based on Active Tab */}
-        {activeTab === 'proposal' && (
+        {activeTab === "proposal" && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Form Section */}
             <div className="lg:col-span-2">
@@ -145,35 +173,38 @@ function UpworkProposalsPage() {
                 proposal={generatedProposal}
                 isGenerating={isGenerating}
                 apiKey={apiKey}
-                jobRequirements={generatedProposal ? 'Job requirements from form' : ''}
+                jobRequirements={
+                  generatedProposal ? "Job requirements from form" : ""
+                }
               />
             </div>
           </div>
         )}
 
-        {activeTab === 'reviews' && (
-          <ClientReviewAnalyzer apiKey={apiKey} />
-        )}
+        {activeTab === "reviews" && <ClientReviewAnalyzer apiKey={apiKey} />}
 
-        {activeTab === 'analytics' && (
-          <ProposalAnalytics />
-        )}
+        {activeTab === "analytics" && <ProposalAnalytics />}
 
-        {activeTab === 'support' && (
+        {activeTab === "support" && (
           <div className="max-w-4xl mx-auto">
             <div className="glass-card neon p-8">
               <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold text-white mb-4">☕ Support Our Work</h2>
+                <h2 className="text-3xl font-bold text-white mb-4 flex items-center justify-center">
+                  <Coffee className="w-8 h-8 mr-3" />
+                  Support Our Work
+                </h2>
                 <p className="text-white/70 text-lg">
-                  Help us keep this tool free and continuously improving! Your support means the world to us.
+                  Help us keep this tool free and continuously improving! Your
+                  support means the world to us.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* QR Code Section */}
                 <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-                  <h3 className="text-xl font-semibold text-white mb-4 text-center">
-                    📱 Scan to Support
+                  <h3 className="text-xl font-semibold text-white mb-4 text-center flex items-center justify-center">
+                    <QrCode className="w-6 h-6 mr-2" />
+                    Scan to Support
                   </h3>
                   <div className="flex justify-center mb-4">
                     <div className="bg-white p-4 rounded-lg">
@@ -191,47 +222,56 @@ function UpworkProposalsPage() {
 
                 {/* Support Information */}
                 <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-                  <h3 className="text-xl font-semibold text-white mb-4">
-                    🙏 Why Support Us?
+                  <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
+                    <Heart className="w-10 h-10 mr-2 text-red-500 fill-red-500 animate-pulse" />
+                    Why Support Us?
                   </h3>
                   <div className="space-y-4 text-white/70">
                     <div className="flex items-start gap-3">
-                      <span className="text-green-400">✅</span>
+                      <CheckCircle className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
                       <div>
-                        <strong className="text-white">Keep it Free:</strong> Help us maintain this tool completely free for everyone
+                        <strong className="text-white">Keep it Free:</strong>{" "}
+                        Help us maintain this tool completely free for everyone
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <span className="text-blue-400">🚀</span>
+                      <Rocket className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
                       <div>
-                        <strong className="text-white">New Features:</strong> Your support helps us add more AI-powered features
+                        <strong className="text-white">New Features:</strong>{" "}
+                        Your support helps us add more AI-powered features
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <span className="text-purple-400">⚡</span>
+                      <Zap className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
                       <div>
-                        <strong className="text-white">Better Performance:</strong> Improve server capacity and response times
+                        <strong className="text-white">
+                          Better Performance:
+                        </strong>{" "}
+                        Improve server capacity and response times
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <span className="text-yellow-400">☕</span>
+                      <CoffeeIcon className="w-5 h-5 text-yellow-400 mt-0.5 flex-shrink-0" />
                       <div>
-                        <strong className="text-white">Buy us Coffee:</strong> Fuel our late-night coding sessions!
+                        <strong className="text-white">Buy us Coffee:</strong>{" "}
+                        Fuel our late-night coding sessions!
                       </div>
                     </div>
                   </div>
 
                   <div className="mt-6 p-4 bg-yellow-600/10 border border-yellow-500/30 rounded-lg">
                     <p className="text-yellow-200 text-sm text-center">
-                      <strong>💝 Every contribution matters!</strong><br />
-                      Whether it's $1 or $10, your support helps us continue building amazing tools for freelancers like you.
+                      <strong>💝 Every contribution matters!</strong>
+                      <br />
+                      Whether it's $1 or $10, your support helps us continue
+                      building amazing tools for freelancers like you.
                     </p>
                   </div>
                 </div>
               </div>
 
               {/* Additional Support Options */}
-             <SupportSection/>
+              <SupportSection />
             </div>
           </div>
         )}

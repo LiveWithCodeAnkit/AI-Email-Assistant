@@ -1,4 +1,16 @@
 import React, { useState } from 'react';
+import { 
+  Copy, 
+  Download, 
+  BarChart3, 
+  Zap, 
+  Globe, 
+  FileText, 
+  CheckCircle, 
+  Clock,
+  Expand,
+  Minimize2
+} from 'lucide-react';
 import ProposalService from '../services/ProposalService';
 import { ChatOpenAI } from '@langchain/openai';
 import { HumanMessage, SystemMessage } from '@langchain/core/messages';
@@ -188,9 +200,19 @@ Translated Proposal in ${languageNames[language]}:`;
         {proposal && wordCount > 0 && (
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-white/80 hover:text-white text-sm transition-colors backdrop-blur-sm"
+            className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-white/80 hover:text-white text-sm transition-colors backdrop-blur-sm flex items-center"
           >
-            {isExpanded ? '📄 Compact View' : '📖 Expand View'}
+            {isExpanded ? (
+              <>
+                <Minimize2 className="w-4 h-4 mr-2" />
+                Compact View
+              </>
+            ) : (
+              <>
+                <Expand className="w-4 h-4 mr-2" />
+                Expand View
+              </>
+            )}
           </button>
         )}
       </div>
@@ -208,13 +230,17 @@ Translated Proposal in ${languageNames[language]}:`;
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all ${
+                className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all flex items-center justify-center ${
                   activeTab === tab.id
                     ? 'bg-purple-600 text-white shadow-lg'
                     : 'text-white/70 hover:text-white hover:bg-white/10'
                 }`}
               >
-                {tab.label}
+                {tab.id === 'proposal' && <FileText className="w-3 h-3 mr-1" />}
+                {tab.id === 'optimized' && <Zap className="w-3 h-3 mr-1" />}
+                {tab.id === 'translated' && <Globe className="w-3 h-3 mr-1" />}
+                {tab.id === 'analysis' && <BarChart3 className="w-3 h-3 mr-1" />}
+                {tab.label.replace(/[📝✨🌐📊]/g, '').trim()}
               </button>
             ))}
           </div>
@@ -256,15 +282,26 @@ Translated Proposal in ${languageNames[language]}:`;
             <div className="flex space-x-2">
               <button
                 onClick={() => handleCopy(getCurrentContent())}
-                className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
+                className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors flex items-center justify-center"
               >
-                {copied ? '✓ Copied!' : '📋 Copy'}
+                {copied ? (
+                  <>
+                    <CheckCircle className="w-4 h-4 mr-2" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4 mr-2" />
+                    Copy
+                  </>
+                )}
               </button>
               <button
                 onClick={() => exportProposal()}
-                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-medium rounded-lg transition-colors border border-white/20"
+                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-medium rounded-lg transition-colors border border-white/20 flex items-center"
               >
-                💾 Export
+                <Download className="w-4 h-4 mr-2" />
+                Export
               </button>
             </div>
 
@@ -275,9 +312,19 @@ Translated Proposal in ${languageNames[language]}:`;
                   <button
                     onClick={handleAnalyze}
                     disabled={isAnalyzing}
-                    className="px-3 py-2 bg-blue-600/20 border border-blue-500/50 rounded-lg text-blue-200 hover:bg-blue-600/30 text-sm disabled:opacity-50 transition-colors"
+                    className="px-3 py-2 bg-blue-600/20 border border-blue-500/50 rounded-lg text-blue-200 hover:bg-blue-600/30 text-sm disabled:opacity-50 transition-colors flex items-center"
                   >
-                    {isAnalyzing ? '⏳ Analyzing...' : '📊 Analyze Quality'}
+                    {isAnalyzing ? (
+                      <>
+                        <Clock className="w-3 h-3 mr-1 animate-spin" />
+                        Analyzing...
+                      </>
+                    ) : (
+                      <>
+                        <BarChart3 className="w-3 h-3 mr-1" />
+                        Analyze Quality
+                      </>
+                    )}
                   </button>
 
                   <select
@@ -286,7 +333,7 @@ Translated Proposal in ${languageNames[language]}:`;
                     className="px-3 py-2 bg-green-600/20 border border-green-500/50 rounded-lg text-green-200 text-sm disabled:opacity-50 transition-colors"
                     value=""
                   >
-                    <option value="">{isOptimizing ? `⏳ Optimizing...` : '✨ Optimize for...'}</option>
+                    <option value="">{isOptimizing ? `Optimizing...` : 'Optimize for...'}</option>
                     <option value="general">General Improvement</option>
                     <option value="budget">Budget Focus</option>
                     <option value="timeline">Timeline Focus</option>
@@ -300,25 +347,40 @@ Translated Proposal in ${languageNames[language]}:`;
                   <button
                     onClick={() => handleTranslate('hindi')}
                     disabled={isTranslating}
-                    className="px-3 py-2 bg-orange-600/20 border border-orange-500/50 rounded-lg text-orange-200 hover:bg-orange-600/30 text-sm disabled:opacity-50 transition-colors"
+                    className="px-3 py-2 bg-orange-600/20 border border-orange-500/50 rounded-lg text-orange-200 hover:bg-orange-600/30 text-sm disabled:opacity-50 transition-colors flex items-center"
                   >
-                    {isTranslating && selectedLanguage === 'hindi' ? '⏳' : '🇮🇳 हिंदी'}
+                    {isTranslating && selectedLanguage === 'hindi' ? (
+                      <Clock className="w-3 h-3 mr-1 animate-spin" />
+                    ) : (
+                      <Globe className="w-3 h-3 mr-1" />
+                    )}
+                    हिंदी
                   </button>
 
                   <button
                     onClick={() => handleTranslate('gujarati')}
                     disabled={isTranslating}
-                    className="px-3 py-2 bg-orange-600/20 border border-orange-500/50 rounded-lg text-orange-200 hover:bg-orange-600/30 text-sm disabled:opacity-50 transition-colors"
+                    className="px-3 py-2 bg-orange-600/20 border border-orange-500/50 rounded-lg text-orange-200 hover:bg-orange-600/30 text-sm disabled:opacity-50 transition-colors flex items-center"
                   >
-                    {isTranslating && selectedLanguage === 'gujarati' ? '⏳' : '🇮🇳 ગુજરાતી'}
+                    {isTranslating && selectedLanguage === 'gujarati' ? (
+                      <Clock className="w-3 h-3 mr-1 animate-spin" />
+                    ) : (
+                      <Globe className="w-3 h-3 mr-1" />
+                    )}
+                    ગુજરાતી
                   </button>
 
                   <button
                     onClick={() => handleTranslate('english')}
                     disabled={isTranslating}
-                    className="px-3 py-2 bg-orange-600/20 border border-orange-500/50 rounded-lg text-orange-200 hover:bg-orange-600/30 text-sm disabled:opacity-50 transition-colors"
+                    className="px-3 py-2 bg-orange-600/20 border border-orange-500/50 rounded-lg text-orange-200 hover:bg-orange-600/30 text-sm disabled:opacity-50 transition-colors flex items-center"
                   >
-                    {isTranslating && selectedLanguage === 'english' ? '⏳' : '🇺🇸 English'}
+                    {isTranslating && selectedLanguage === 'english' ? (
+                      <Clock className="w-3 h-3 mr-1 animate-spin" />
+                    ) : (
+                      <Globe className="w-3 h-3 mr-1" />
+                    )}
+                    English
                   </button>
                 </div>
               </div>
@@ -327,13 +389,16 @@ Translated Proposal in ${languageNames[language]}:`;
 
           {/* Success Message */}
           <div className="text-center text-white/50 text-sm">
-            <div className="mb-1">✨ Proposal generated successfully!</div>
+            <div className="mb-1 flex items-center justify-center">
+              <CheckCircle className="w-4 h-4 mr-2 text-green-400" />
+              Proposal generated successfully!
+            </div>
             <div className="text-xs">Use the tools above to analyze, optimize, and translate your proposal</div>
           </div>
         </div>
       ) : (
         <div className="text-center text-white/50 py-12">
-          <div className="text-4xl mb-4">📝</div>
+          <FileText className="w-16 h-16 mx-auto mb-4 text-white/30" />
           <div className="text-lg mb-2">No proposal generated yet</div>
           <div className="text-sm">Fill out the form and click "Generate Proposal" to get started</div>
         </div>

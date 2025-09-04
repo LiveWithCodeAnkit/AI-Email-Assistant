@@ -1,4 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { 
+  Key, 
+  Eye, 
+  EyeOff, 
+  Save, 
+  Download, 
+  Trash2, 
+  TestTube, 
+  Rocket, 
+  CheckCircle, 
+  AlertCircle 
+} from 'lucide-react';
 import EmailService from '../services/EmailService';
 import CryptoService from '../services/CryptoService';
 
@@ -98,7 +110,7 @@ function ApiKeyManager({ onApiKeySet }) {
   return (
     <div className="glass-card neon p-6 mb-6 tilt relative z-10">
       <div className="flex items-center mb-4">
-        <span className="text-2xl mr-3">🔑</span>
+        <Key className="w-6 h-6 mr-3 text-purple-400" />
         <h3 className="text-white text-lg font-semibold">OpenAI API Key</h3>
       </div>
       
@@ -120,7 +132,7 @@ function ApiKeyManager({ onApiKeySet }) {
               onClick={() => setShowKey(!showKey)}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white text-opacity-70 hover:text-opacity-100 transition duration-200"
             >
-              {showKey ? '🙈' : '👁️'}
+              {showKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           </div>
           <p className="text-xs text-white text-opacity-70 mt-1">
@@ -137,9 +149,18 @@ function ApiKeyManager({ onApiKeySet }) {
             className="w-full px-4 py-3 bg-black bg-opacity-25 border border-white border-opacity-30 rounded-lg text-white placeholder-white placeholder-opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
           />
           <div className="flex gap-2">
-            <button onClick={saveEncrypted} className="bg-gradient-to-r from-teal-400 to-blue-500 hover:from-teal-500 hover:to-blue-600 text-white font-semibold py-2 px-4 rounded-lg">Save Encrypted</button>
-            <button onClick={loadEncrypted} className="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-semibold py-2 px-4 rounded-lg">Load</button>
-            <button onClick={clearEncrypted} className="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-semibold py-2 px-4 rounded-lg">Clear</button>
+            <button onClick={saveEncrypted} className="bg-gradient-to-r from-teal-400 to-blue-500 hover:from-teal-500 hover:to-blue-600 text-white font-semibold py-2 px-4 rounded-lg flex items-center">
+              <Save className="w-4 h-4 mr-2" />
+              Save Encrypted
+            </button>
+            <button onClick={loadEncrypted} className="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-semibold py-2 px-4 rounded-lg flex items-center">
+              <Download className="w-4 h-4 mr-2" />
+              Load
+            </button>
+            <button onClick={clearEncrypted} className="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-semibold py-2 px-4 rounded-lg flex items-center">
+              <Trash2 className="w-4 h-4 mr-2" />
+              Clear
+            </button>
           </div>
         </div>
 
@@ -149,14 +170,14 @@ function ApiKeyManager({ onApiKeySet }) {
 
         {error && (
           <div className="text-red-400 text-sm flex items-center">
-            <span className="mr-2">⚠️</span>
+            <AlertCircle className="w-4 h-4 mr-2" />
             {error}
           </div>
         )}
 
         {isValid && (
           <div className="text-green-400 text-sm flex items-center">
-            <span className="mr-2">✅</span>
+            <CheckCircle className="w-4 h-4 mr-2" />
             API key is valid and ready to use
           </div>
         )}
@@ -174,7 +195,7 @@ function ApiKeyManager({ onApiKeySet }) {
               </>
             ) : (
               <>
-                <span className="mr-2">🧪</span>
+                <TestTube className="w-4 h-4 mr-2" />
                 Test Key
               </>
             )}
@@ -186,7 +207,7 @@ function ApiKeyManager({ onApiKeySet }) {
               disabled={!apiKey.trim() || error}
               className="bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 transition duration-200 flex items-center"
             >
-              <span className="mr-2">🚀</span>
+              <Rocket className="w-4 h-4 mr-2" />
               Use Key
             </button>
           )}

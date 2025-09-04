@@ -1,4 +1,31 @@
 import React, { useState, useEffect } from 'react';
+import { 
+  X, 
+  CheckCircle, 
+  AlertCircle, 
+  Info, 
+  Save, 
+  FolderOpen, 
+  Trash2, 
+  Upload, 
+  FileText, 
+  Search, 
+  Plus, 
+  Minus,
+  Eye,
+  EyeOff,
+  Settings,
+  User,
+  Briefcase,
+  Calendar,
+  DollarSign,
+  Clock,
+  Target,
+  Zap,
+  Download,
+  Copy,
+  RefreshCw
+} from 'lucide-react';
 import ProposalTemplates from './ProposalTemplates';
 
 // Toast notification component
@@ -9,17 +36,17 @@ const Toast = ({ message, type, onClose }) => {
   }, [onClose]);
 
   const bgColor = type === 'error' ? 'bg-red-500/90' : type === 'success' ? 'bg-green-500/90' : 'bg-blue-500/90';
-  const icon = type === 'error' ? '❌' : type === 'success' ? '✅' : 'ℹ️';
+  const IconComponent = type === 'error' ? AlertCircle : type === 'success' ? CheckCircle : Info;
 
   return (
     <div className={`fixed top-4 right-4 ${bgColor} text-white px-6 py-4 rounded-lg shadow-lg z-50 max-w-md`}>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span>{icon}</span>
+          <IconComponent className="w-4 h-4" />
           <span>{message}</span>
         </div>
         <button onClick={onClose} className="ml-4 text-white/80 hover:text-white">
-          ✕
+          <X className="w-4 h-4" />
         </button>
       </div>
     </div>
@@ -716,16 +743,18 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
             <button
               type="button"
               onClick={() => setShowProfileManager(!showProfileManager)}
-              className="px-4 py-2 bg-blue-600/20 border border-blue-500/50 rounded-lg text-blue-200 hover:bg-blue-600/30 text-sm"
+              className="px-4 py-2 bg-blue-600/20 border border-blue-500/50 rounded-lg text-blue-200 hover:bg-blue-600/30 text-sm flex items-center"
             >
-              📁 Profiles ({savedProfiles.length})
+              <FolderOpen className="w-4 h-4 mr-2" />
+              Profiles ({savedProfiles.length})
             </button>
             <button
               type="button"
               onClick={saveCurrentProfile}
-              className="px-4 py-2 bg-green-600/20 border border-green-500/50 rounded-lg text-green-200 hover:bg-green-600/30 text-sm"
+              className="px-4 py-2 bg-green-600/20 border border-green-500/50 rounded-lg text-green-200 hover:bg-green-600/30 text-sm flex items-center"
             >
-              💾 Save Profile
+              <Save className="w-4 h-4 mr-2" />
+              Save Profile
             </button>
           </div>
         </div>
@@ -747,14 +776,16 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
                     <div className="flex space-x-2">
                       <button
                         onClick={() => loadProfile(profile)}
-                        className="px-3 py-1 bg-blue-600/20 border border-blue-500/50 rounded text-blue-200 hover:bg-blue-600/30 text-sm"
+                        className="px-3 py-1 bg-blue-600/20 border border-blue-500/50 rounded text-blue-200 hover:bg-blue-600/30 text-sm flex items-center"
                       >
+                        <FolderOpen className="w-3 h-3 mr-1" />
                         Load
                       </button>
                       <button
                         onClick={() => deleteProfile(profile.id)}
-                        className="px-3 py-1 bg-red-600/20 border border-red-500/50 rounded text-red-200 hover:bg-red-600/30 text-sm"
+                        className="px-3 py-1 bg-red-600/20 border border-red-500/50 rounded text-red-200 hover:bg-red-600/30 text-sm flex items-center"
                       >
+                        <Trash2 className="w-3 h-3 mr-1" />
                         Delete
                       </button>
                     </div>
@@ -774,9 +805,10 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
               </h3>
               <button
                 onClick={() => setSelectedTemplate(null)}
-                className="text-purple-300 hover:text-purple-100 text-sm"
+                className="text-purple-300 hover:text-purple-100 text-sm flex items-center"
               >
-                ✕ Remove
+                <X className="w-3 h-3 mr-1" />
+                Remove
               </button>
             </div>
             <div className="text-purple-200/70 text-sm">
@@ -799,7 +831,8 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
         {jobInsights && (
           <div className="mb-6 p-4 bg-purple-600/10 border border-purple-500/30 rounded-lg">
             <h3 className="text-purple-200 font-medium mb-3 flex items-center gap-2">
-              <span>🔍</span> Job Analysis Insights
+              <Search className="w-4 h-4" />
+              Job Analysis Insights
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div className="space-y-2">
@@ -859,8 +892,9 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
 
           {/* AI Model Selection - Always Visible */}
           <div>
-            <label className="block text-white font-medium mb-2">
-              🤖 AI Model Selection
+            <label className="block text-white font-medium mb-2 flex items-center">
+              <Zap className="w-4 h-4 mr-2" />
+              AI Model Selection
             </label>
             <select
               value={formData.model}
@@ -880,8 +914,9 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
 
           {/* CV Upload Section with Text Extraction */}
           <div>
-            <label className="block text-white font-medium mb-2">
-              📄 Resume/CV Upload (Auto-fill "About You" section)
+            <label className="block text-white font-medium mb-2 flex items-center">
+              <FileText className="w-4 h-4 mr-2" />
+              Resume/CV Upload (Auto-fill "About You" section)
             </label>
             <div className="border-2 border-dashed border-white/20 rounded-lg p-6 hover:border-white/40 transition-colors">
               <input
@@ -892,8 +927,18 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
                 id="cv-upload"
               />
               <label htmlFor="cv-upload" className="cursor-pointer block text-center">
-                <div className="text-white/70 mb-2">
-                  {cvFile ? '✅ File Uploaded' : '📄 Upload Resume/CV'}
+                <div className="text-white/70 mb-2 flex items-center justify-center">
+                  {cvFile ? (
+                    <>
+                      <CheckCircle className="w-4 h-4 mr-2 text-green-400" />
+                      File Uploaded
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-4 h-4 mr-2" />
+                      Upload Resume/CV
+                    </>
+                  )}
                 </div>
                 <div className="text-white/50 text-sm mb-2">
                   {cvFile ? cvFile.name : 'Best: TXT files | Limited: PDF, DOC, DOCX'}
@@ -916,21 +961,26 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
                   type="button"
                   id="extract-resume-btn"
                   onClick={extractResumeText}
-                  className="px-4 py-2 bg-blue-600/20 border border-blue-500/50 rounded-lg text-blue-200 hover:bg-blue-600/30 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-blue-600/20 border border-blue-500/50 rounded-lg text-blue-200 hover:bg-blue-600/30 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
                 >
-                  🔍 Extract & Analyze Resume
+                  <Search className="w-4 h-4 mr-2" />
+                  Extract & Analyze Resume
                 </button>
                 <button
                   type="button"
                   onClick={() => setCvFile(null)}
-                  className="px-4 py-2 bg-red-600/20 border border-red-500/50 rounded-lg text-red-200 hover:bg-red-600/30 text-sm"
+                  className="px-4 py-2 bg-red-600/20 border border-red-500/50 rounded-lg text-red-200 hover:bg-red-600/30 text-sm flex items-center"
                 >
-                  ✕ Remove File
+                  <X className="w-4 h-4 mr-2" />
+                  Remove File
                 </button>
               </div>
             )}
             <div className="mt-3 p-3 bg-blue-600/10 border border-blue-500/30 rounded-lg">
-              <h4 className="text-blue-200 font-medium mb-2 text-sm">📋 Resume Analysis Features:</h4>
+              <h4 className="text-blue-200 font-medium mb-2 text-sm flex items-center">
+                <FileText className="w-3 h-3 mr-1" />
+                Resume Analysis Features:
+              </h4>
               <ul className="text-blue-200/70 text-xs space-y-1">
                 <li>• Automatically extracts your professional summary</li>
                 <li>• Identifies years of experience</li>
@@ -944,7 +994,8 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
           {/* About You Section */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label className="block text-white font-medium">
+              <label className="block text-white font-medium flex items-center">
+                <User className="w-4 h-4 mr-2" />
                 About You: A description of your background, skills and experience *
               </label>
               <div className="flex items-center space-x-2">
@@ -973,7 +1024,8 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
           {formData.showAdditionalFields && (
             <div className="space-y-4 p-4 bg-white/5 rounded-lg">
               <div>
-                <label className="block text-white font-medium mb-2">
+                <label className="block text-white font-medium mb-2 flex items-center">
+                  <Briefcase className="w-4 h-4 mr-2" />
                   Experience (Years)
                 </label>
                 <input
@@ -987,7 +1039,8 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
 
               {/* Keywords */}
               <div>
-                <label className="block text-white font-medium mb-2">
+                <label className="block text-white font-medium mb-2 flex items-center">
+                  <Target className="w-4 h-4 mr-2" />
                   Keywords: Highlight Your Skills and Experience
                 </label>
                 <div className="relative">
@@ -1005,9 +1058,7 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
                     }}
                   />
                   <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
+                    <Search className="w-4 h-4" />
                   </div>
                 </div>
 
@@ -1046,7 +1097,7 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
                             onClick={() => removeArrayField('keywords', index)}
                             className="ml-1 text-purple-300 hover:text-red-300 text-xs"
                           >
-                            ×
+                            <X className="w-3 h-3" />
                           </button>
                         </div>
                       ))}
@@ -1057,7 +1108,8 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
 
               {/* Portfolio Links */}
               <div>
-                <label className="block text-white font-medium mb-2">
+                <label className="block text-white font-medium mb-2 flex items-center">
+                  <Download className="w-4 h-4 mr-2" />
                   Portfolio Links
                 </label>
                 {formData.portfolioLinks.map((link, index) => (
@@ -1075,7 +1127,7 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
                         onClick={() => removeArrayField('portfolioLinks', index)}
                         className="px-3 py-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200 hover:bg-red-500/30"
                       >
-                        ✕
+                        <X className="w-4 h-4" />
                       </button>
                     )}
                   </div>
@@ -1083,9 +1135,10 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
                 <button
                   type="button"
                   onClick={() => addArrayField('portfolioLinks')}
-                  className="px-4 py-2 bg-purple-600/20 border border-purple-500/50 rounded-lg text-purple-200 hover:bg-purple-600/30"
+                  className="px-4 py-2 bg-purple-600/20 border border-purple-500/50 rounded-lg text-purple-200 hover:bg-purple-600/30 flex items-center"
                 >
-                  + Add Portfolio Link
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Portfolio Link
                 </button>
               </div>
 
@@ -1093,7 +1146,8 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
 
               {/* Proposal Tone */}
               <div>
-                <label className="block text-white font-medium mb-2">
+                <label className="block text-white font-medium mb-2 flex items-center">
+                  <Settings className="w-4 h-4 mr-2" />
                   Proposal Tone
                 </label>
                 <select
@@ -1111,7 +1165,8 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
 
               {/* Proposal Length */}
               <div>
-                <label className="block text-white font-medium mb-2">
+                <label className="block text-white font-medium mb-2 flex items-center">
+                  <FileText className="w-4 h-4 mr-2" />
                   Proposal Length
                 </label>
                 <select
@@ -1132,11 +1187,17 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
           {/* Additional Project Details */}
           {formData.showAdditionalFields && (
             <div className="space-y-4 p-4 bg-white/5 rounded-lg">
-              <h3 className="text-white font-medium">📋 Project Details (Optional but Recommended)</h3>
+              <h3 className="text-white font-medium flex items-center">
+                <Briefcase className="w-4 h-4 mr-2" />
+                Project Details (Optional but Recommended)
+              </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-white font-medium mb-2">Client/Company Name</label>
+                  <label className="block text-white font-medium mb-2 flex items-center">
+                    <User className="w-4 h-4 mr-2" />
+                    Client/Company Name
+                  </label>
                   <input
                     type="text"
                     value={formData.clientName}
@@ -1147,7 +1208,10 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
                 </div>
 
                 <div>
-                  <label className="block text-white font-medium mb-2">Project Budget Range</label>
+                  <label className="block text-white font-medium mb-2 flex items-center">
+                    <DollarSign className="w-4 h-4 mr-2" />
+                    Project Budget Range
+                  </label>
                   <select
                     value={formData.projectBudget}
                     onChange={(e) => handleInputChange('projectBudget', e.target.value)}
@@ -1165,7 +1229,10 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-white font-medium mb-2">Project Timeline</label>
+                  <label className="block text-white font-medium mb-2 flex items-center">
+                    <Clock className="w-4 h-4 mr-2" />
+                    Project Timeline
+                  </label>
                   <select
                     value={formData.timeline}
                     onChange={(e) => handleInputChange('timeline', e.target.value)}
@@ -1181,7 +1248,10 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
                 </div>
 
                 <div>
-                  <label className="block text-white font-medium mb-2">Special Requirements</label>
+                  <label className="block text-white font-medium mb-2 flex items-center">
+                    <Target className="w-4 h-4 mr-2" />
+                    Special Requirements
+                  </label>
                   <input
                     type="text"
                     value={formData.specialRequirements}
@@ -1196,7 +1266,8 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
 
           {/* Job Requirements */}
           <div>
-            <label className="block text-white font-medium mb-2">
+            <label className="block text-white font-medium mb-2 flex items-center">
+              <FileText className="w-4 h-4 mr-2" />
               Job Requirements: Copy and paste the requirements of the job you're applying for *
             </label>
             <textarea
@@ -1214,8 +1285,9 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
 
           {/* Extra Instructions */}
           <div>
-            <label className="block text-white font-medium mb-2">
-              📝 Extra Instructions (Optional)
+            <label className="block text-white font-medium mb-2 flex items-center">
+              <FileText className="w-4 h-4 mr-2" />
+              Extra Instructions (Optional)
             </label>
             <textarea
               value={formData.extraInstructions}
@@ -1232,7 +1304,8 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
           {/* High Quality Generation Toggle */}
           <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
             <div className="flex items-center space-x-2">
-              <span className="text-white font-medium">👌 High Quality Generation</span>
+              <Zap className="w-4 h-4 text-yellow-400" />
+              <span className="text-white font-medium">High Quality Generation</span>
               <span className="text-white/50 text-sm">?</span>
             </div>
             <button
@@ -1251,8 +1324,9 @@ function ProposalForm({ onGenerate, isGenerating, error }) {
             <button
               type="button"
               onClick={handleReset}
-              className="text-white/70 hover:text-white transition-colors"
+              className="text-white/70 hover:text-white transition-colors flex items-center"
             >
+              <RefreshCw className="w-4 h-4 mr-2" />
               Reset
             </button>
             <button

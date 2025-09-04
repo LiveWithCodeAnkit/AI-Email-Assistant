@@ -1,4 +1,15 @@
 import React, { useState } from 'react';
+import { 
+  X, 
+  FileText, 
+  Star, 
+  TrendingUp, 
+  Clock, 
+  Target,
+  CheckCircle,
+  AlertCircle,
+  Info
+} from 'lucide-react';
 
 function ProposalTemplates({ onSelectTemplate, onClose }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -135,14 +146,17 @@ function ProposalTemplates({ onSelectTemplate, onClose }) {
         <div className="p-6 border-b border-white/10">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-white">📋 Proposal Templates</h2>
+              <h2 className="text-2xl font-bold text-white flex items-center">
+                <FileText className="w-6 h-6 mr-2" />
+                Proposal Templates
+              </h2>
               <p className="text-white/70 mt-1">Choose a template to get started with proven proposal structures</p>
             </div>
             <button
               onClick={onClose}
               className="text-white/70 hover:text-white text-2xl"
             >
-              ✕
+              <X className="w-6 h-6" />
             </button>
           </div>
 
@@ -179,7 +193,8 @@ function ProposalTemplates({ onSelectTemplate, onClose }) {
                     <h3 className="text-white font-semibold text-lg group-hover:text-purple-300 transition-colors">
                       {template.title}
                     </h3>
-                    <div className={`px-2 py-1 rounded-full text-xs ${getWinRateColor(template.estimatedWinRate)}`}>
+                    <div className={`px-2 py-1 rounded-full text-xs flex items-center ${getWinRateColor(template.estimatedWinRate)}`}>
+                      <Star className="w-3 h-3 mr-1" />
                       {template.estimatedWinRate}
                     </div>
                   </div>
@@ -189,7 +204,8 @@ function ProposalTemplates({ onSelectTemplate, onClose }) {
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-white/50 text-xs">{template.category}</span>
                     <span className="text-white/30">•</span>
-                    <span className={`px-2 py-1 rounded-full text-xs ${getDifficultyColor(template.difficulty)}`}>
+                    <span className={`px-2 py-1 rounded-full text-xs flex items-center ${getDifficultyColor(template.difficulty)}`}>
+                      <Target className="w-3 h-3 mr-1" />
                       {template.difficulty}
                     </span>
                   </div>
@@ -220,7 +236,8 @@ function ProposalTemplates({ onSelectTemplate, onClose }) {
                 </div>
 
                 {/* Action */}
-                <button className="w-full py-2 bg-purple-600/20 border border-purple-500/50 rounded text-purple-200 hover:bg-purple-600/30 transition-colors text-sm group-hover:border-purple-400">
+                <button className="w-full py-2 bg-purple-600/20 border border-purple-500/50 rounded text-purple-200 hover:bg-purple-600/30 transition-colors text-sm group-hover:border-purple-400 flex items-center justify-center">
+                  <CheckCircle className="w-4 h-4 mr-2" />
                   Use This Template
                 </button>
               </div>
@@ -229,7 +246,7 @@ function ProposalTemplates({ onSelectTemplate, onClose }) {
 
           {filteredTemplates.length === 0 && (
             <div className="text-center text-white/50 py-12">
-              <div className="text-4xl mb-4">📋</div>
+              <FileText className="w-16 h-16 mx-auto mb-4 text-white/30" />
               <div className="text-lg mb-2">No templates found</div>
               <div className="text-sm">Try selecting a different category</div>
             </div>
@@ -239,8 +256,9 @@ function ProposalTemplates({ onSelectTemplate, onClose }) {
         {/* Footer */}
         <div className="p-6 border-t border-white/10 bg-white/5">
           <div className="flex items-center justify-between text-sm">
-            <div className="text-white/70">
-              💡 Templates are starting points - customize them with your specific experience and the job requirements
+            <div className="text-white/70 flex items-center">
+              <Info className="w-4 h-4 mr-2" />
+              Templates are starting points - customize them with your specific experience and the job requirements
             </div>
             <div className="text-white/50">
               {filteredTemplates.length} templates available
