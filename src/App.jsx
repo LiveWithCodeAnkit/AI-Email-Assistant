@@ -119,14 +119,14 @@ function App() {
                   <span>🚀</span>
                   <span>Upwork Proposals</span>
                 </a>
-                <a
+                {/* <a
                   href="/test"
                   className="inline-flex items-center gap-2 text-sm bg-green-600 hover:bg-green-700 border border-green-500 rounded-full px-5 py-2 transition"
                   title="Test Route"
                 >
                   <span>🧪</span>
                   <span>Test Route</span>
-                </a>
+                </a> */}
               </div>
             </div>
           </div>
