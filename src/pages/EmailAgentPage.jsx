@@ -10,7 +10,6 @@ import AgentService from '../services/AgentService';
 import LangChainAgent from '../services/LangChainAgent';
 import AgentMemory from '../services/AgentMemory';
 import AgentScheduler from '../services/AgentScheduler';
-import TrackingService from '../services/TrackingService';
 import { corporateTemplates } from '../templates/corporateTemplates';
 
 function EmailAgentPage() {
@@ -44,9 +43,6 @@ function EmailAgentPage() {
   const scheduler = useMemo(() => new AgentScheduler(), []);
 
   useEffect(() => {
-    // Track page visit
-    TrackingService.recordVisit().catch(console.error);
-    
     scheduler.start();
     const unsub = scheduler.subscribe((event, payload) => {
       if (event === 'execute') {

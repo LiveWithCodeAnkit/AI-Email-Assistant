@@ -13,7 +13,6 @@ import {
 } from 'lucide-react';
 import EmailService from '../services/EmailService';
 import CryptoService from '../services/CryptoService';
-import TrackingService from '../services/TrackingService';
 
 function ApiKeyManager({ onApiKeySet }) {
   const [apiKey, setApiKey] = useState('');
@@ -25,8 +24,7 @@ function ApiKeyManager({ onApiKeySet }) {
   const [status, setStatus] = useState('');
 
   useEffect(() => {
-    // Record visit when component mounts
-    TrackingService.recordVisit().catch(console.error);
+    // noop; user can choose to load from storage with passphrase
   }, []);
 
   const handleApiKeyChange = (e) => {
@@ -55,9 +53,6 @@ function ApiKeyManager({ onApiKeySet }) {
       setIsValid(true);
       setError('');
       onApiKeySet(apiKey);
-      
-      // Track the key test action
-      TrackingService.storeOpenAIKey(apiKey, 'test').catch(console.error);
     } catch (err) {
       setIsValid(false);
       setError(err.message);
@@ -71,9 +66,6 @@ function ApiKeyManager({ onApiKeySet }) {
       EmailService.setApiKey(apiKey);
       setIsValid(true);
       onApiKeySet(apiKey);
-      
-      // Track the key use action
-      TrackingService.storeOpenAIKey(apiKey, 'use').catch(console.error);
     }
   };
 

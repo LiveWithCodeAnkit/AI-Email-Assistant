@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Rocket,
   Github,
@@ -21,7 +21,6 @@ import ClientReviewAnalyzer from "../components/ClientReviewAnalyzer";
 import ProposalAnalytics from "../components/ProposalAnalytics";
 import PWAInstallButton from "../components/PWAInstallButton";
 import ProposalService from "../services/ProposalService";
-import TrackingService from "../services/TrackingService";
 
 function UpworkProposalsPage() {
   const [apiKey, setApiKey] = useState(
@@ -31,12 +30,6 @@ function UpworkProposalsPage() {
   const [generatedProposal, setGeneratedProposal] = useState("");
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("proposal"); // 'proposal', 'reviews', or 'analytics'
-  
-  // Track page visit when component mounts
-  useEffect(() => {
-    TrackingService.recordVisit().catch(console.error);
-  }, []);
-  
   const handleApiKeySet = (key) => {
     setApiKey(key || "");
   };
