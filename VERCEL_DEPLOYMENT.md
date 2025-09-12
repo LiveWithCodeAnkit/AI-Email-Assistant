@@ -23,18 +23,26 @@ Make sure you have all the files created:
 - ✅ `api/package.json` - API dependencies
 - ✅ Updated `src/services/TrackingService.js` - Auto-detects environment
 
-### 2. **Set Environment Variable**
-Your MongoDB connection string needs to be added as an environment variable:
+### 2. **Set Environment Variable (IMPORTANT!)**
+Your MongoDB connection string needs to be added as an environment variable in Vercel:
 
-**Via Vercel Dashboard:**
-1. Go to your project settings
-2. Navigate to "Environment Variables"
-3. Add: `MONGODB_URI` = `mongodb+srv://ankit:9UHkKogwAIiNWcEs@upwork.fjlycf1.mongodb.net/?retryWrites=true&w=majority&appName=upworkfromvercel`
+**Via Vercel Dashboard (Recommended):**
+1. Go to [vercel.com](https://vercel.com) → Your Project → Settings
+2. Click "Environment Variables" in the sidebar
+3. Click "Add New"
+4. **Name:** `MONGODB_URI`
+5. **Value:** `mongodb+srv://ankit:9UHkKogwAIiNWcEs@upwork.fjlycf1.mongodb.net/?retryWrites=true&w=majority&appName=upworkfromvercel`
+6. **Environment:** Select "Production", "Preview", and "Development"
+7. Click "Save"
 
 **Via Vercel CLI:**
 ```bash
-vercel env add MONGODB_URI
+vercel env add MONGODB_URI production
 # Paste your MongoDB connection string when prompted
+vercel env add MONGODB_URI preview  
+# Paste the same string
+vercel env add MONGODB_URI development
+# Paste the same string
 ```
 
 ### 3. **Deploy via GitHub (Recommended)**
