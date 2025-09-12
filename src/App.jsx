@@ -10,6 +10,7 @@ import CorporateGuidelines from './components/CorporateGuidelines';
 import InfoBar from './components/InfoBar';
 import PWAInstallButton from './components/PWAInstallButton';
 import EmailService from './services/EmailService';
+import TrackingService from './services/TrackingService';
 
 function App() {
   const [email, setEmail] = useState('');
@@ -26,6 +27,9 @@ function App() {
   const [theme] = useState('theme-night');
 
   useEffect(() => {
+    // Track page visit
+    TrackingService.recordVisit().catch(console.error);
+    
     const timer = setTimeout(() => {
       setAnimationComplete(true);
     }, 1000);

@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import ProposalTemplates from './ProposalTemplates';
 import CustomModal from './CustomModal';
+import TrackingService from '../services/TrackingService';
 
 // Toast notification component
 const Toast = ({ message, type, onClose }) => {
