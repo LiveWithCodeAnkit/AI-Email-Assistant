@@ -23,9 +23,18 @@ Make sure you have all the files created:
 - ✅ `api/package.json` - API dependencies
 - ✅ Updated `src/services/TrackingService.js` - Auto-detects environment
 
-### 2. **Install Vercel CLI** (Optional)
+### 2. **Set Environment Variable**
+Your MongoDB connection string needs to be added as an environment variable:
+
+**Via Vercel Dashboard:**
+1. Go to your project settings
+2. Navigate to "Environment Variables"
+3. Add: `MONGODB_URI` = `mongodb+srv://ankit:9UHkKogwAIiNWcEs@upwork.fjlycf1.mongodb.net/?retryWrites=true&w=majority&appName=upworkfromvercel`
+
+**Via Vercel CLI:**
 ```bash
-npm install -g vercel
+vercel env add MONGODB_URI
+# Paste your MongoDB connection string when prompted
 ```
 
 ### 3. **Deploy via GitHub (Recommended)**
@@ -33,7 +42,7 @@ npm install -g vercel
 1. **Push to GitHub:**
    ```bash
    git add .
-   git commit -m "Add Vercel deployment config"
+   git commit -m "Add Vercel deployment config with MongoDB"
    git push origin main
    ```
 
@@ -42,6 +51,7 @@ npm install -g vercel
    - Sign in with GitHub
    - Click "New Project"
    - Import your repository
+   - **Important:** Add the MongoDB environment variable before deploying
    - Click "Deploy"
 
 ### 4. **Deploy via Vercel CLI** (Alternative)

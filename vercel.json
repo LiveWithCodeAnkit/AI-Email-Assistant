@@ -1,18 +1,12 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    },
-    {
-      "src": "api/server.js",
-      "use": "@vercel/node"
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "functions": {
+    "api/server.js": {
+      "maxDuration": 30
     }
-  ],
+  },
   "routes": [
     {
       "src": "/api/(.*)",
@@ -23,9 +17,7 @@
       "dest": "/$1"
     }
   ],
-  "functions": {
-    "api/server.js": {
-      "maxDuration": 30
-    }
+  "env": {
+    "MONGODB_URI": "@mongodb_uri"
   }
 }
